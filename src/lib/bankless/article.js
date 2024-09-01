@@ -1,6 +1,5 @@
 import { renderRss2 } from '../../utils/util';
 import { parseDate } from '../../utils/parse-date';
-import cache from './../utils/cache';
 import { load } from 'cheerio';
 
 let deal = async (ctx) => {
@@ -30,9 +29,12 @@ let deal = async (ctx) => {
             return item;
         });
     const items = await Promise.all(
-        list.map((item) =>
-            cache.tryGet(item.link, async () => {
-                const response = await ofetch(item.link);
+        list.map(async (item) =>{
+                const response = await fetch(item.link, {
+                    headers: {
+                      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+                    }
+                  });
                 const $ = load(response);
                 const urlList = $('#article').first();
                 const $u = $(urlList);
@@ -43,7 +45,7 @@ let deal = async (ctx) => {
                 item.pubDate = parseDate($u.find('#intro .meta.wow.fadeInUp').children('span')[1].childNodes[0].data);
                 item.author = $u.find('#intro .meta.wow.fadeInUp .authorName').text();
                 return item;
-            })
+            }
         )
     );
     let data = {
