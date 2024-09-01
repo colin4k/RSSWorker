@@ -58,4 +58,8 @@ let deal = async (ctx) => {
     return ctx.body(renderRss2(data));
 };
 
+let setup = (route) => {
+	route.get('/bankless/article', deal);
+};
+
 export { deal };
