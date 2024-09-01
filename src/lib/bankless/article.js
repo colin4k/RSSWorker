@@ -1,6 +1,7 @@
 import { renderRss2 } from '../../utils/util';
 import { parseDate } from '../../utils/parse-date';
 import cache from './../utils/cache';
+import { load } from 'cheerio';
 
 let deal = async (ctx) => {
     
@@ -10,7 +11,11 @@ let deal = async (ctx) => {
 	let description = 'Bankless is a global community to help you on your crypto journey.';
 	let language = 'en';
     // const response = await ofetch(baseUrl);
-    let response = await fetch(link);
+    let response = await fetch(link, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        }
+      });
     const $ = load(response);
 
     const list = $('.item.articleBlockSmall')
