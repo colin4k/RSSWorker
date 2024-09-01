@@ -27,9 +27,10 @@ let deal = async (ctx) => {
             };
             return item;
         });
+        console.log(list);
     const items = await Promise.all(
-        list.map(async (item) =>{
-                const response = await fetch(item.link, {
+        list.map((item) =>{
+                const response = fetch(item.link, {
                     headers: {
                       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
                     },
@@ -55,6 +56,7 @@ let deal = async (ctx) => {
         language: language,
         items: items,
     };
+    console.log(data);
     ctx.header('Content-Type', 'application/xml');
     return ctx.body(renderRss2(data));
 };
