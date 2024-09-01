@@ -62,4 +62,4 @@ let setup = (route) => {
 	route.get('/bankless/article', deal);
 };
 
-export { deal };
+export default { setup };
