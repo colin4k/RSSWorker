@@ -3,18 +3,17 @@ import { parseDate } from '../../utils/parse-date';
 import { load } from 'cheerio';
 
 let deal = async (ctx) => {
-    
-    //const rewriter = new HTMLRewriter();
 	let title = 'Bankless Articles';
 	let link = `https://www.bankless.com/read`;
 	let description = 'Bankless is a global community to help you on your crypto journey.';
 	let language = 'en';
-    // const response = await ofetch(baseUrl);
     let response = await fetch(link, {
         headers: {
           "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-        }
+        },
+        Referer: `https://www.bankless.com`,
       });
+    
     const $ = load(response);
 
     const list = $('.item.articleBlockSmall')
@@ -33,7 +32,8 @@ let deal = async (ctx) => {
                 const response = await fetch(item.link, {
                     headers: {
                       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-                    }
+                    },
+                    Referer: `https://www.bankless.com/read`,
                   });
                 const $ = load(response);
                 const urlList = $('#article').first();
